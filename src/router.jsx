@@ -8,7 +8,7 @@ function Router() {
     <Routes>
         <Route exact path="/" element={ <Home /> } />
         <Route exact path="/login" element={ <SignIn /> } />
-        <Route exact path="/profile/:profileId" element={ <Profile /> } />
+        <Route exact path="/profile" element={ <Profile /> } />
     </Routes>
   );
 }

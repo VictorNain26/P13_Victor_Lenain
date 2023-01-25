@@ -1,10 +1,50 @@
+import { useSelector } from 'react-redux'
+import { useForm } from 'react-hook-form'
+import { useDispatch } from 'react-redux'
+import { editUser } from '../features/user/userActions'
+
 function User() {
+  const { loading, userInfo } = useSelector((state) => state.user)
+  const { register, handleSubmit } = useForm()
+  const dispatch = useDispatch()
+
+  console.log(userInfo);
+
+  const submitForm = (data) => {
+    dispatch(editUser(data))
+  }
+
   return (
     <main className="main bg-dark">
       <div className="header">
-        <h1>Welcome back<br />Tony Jarvis!</h1>
+        <h1>Welcome back<br />{userInfo ? `${userInfo.body.firstName} ${userInfo.body.lastName}` : ""}</h1>
 
-        <button className="edit-button">Edit Name</button>
+        <form className="input-wrapper-form" onSubmit={handleSubmit(submitForm)}>
+          <div className="input-wrapper-container">
+            <div className="input-wrapper">
+              <label htmlFor="firstName">firstname</label>
+
+              <input
+                type="firstname"
+                {...register('firstName')}
+                required
+              />
+            </div>
+
+            <div className="input-wrapper">
+              <label htmlFor="lastName">lastname</label>
+
+              <input
+                type='lastname'
+                {...register('lastName')}
+                required
+              />
+            </div>
+          </div>
+
+          <button type='submit' className="edit-button" disabled={loading}>Edit Name</button>
+        </form>
+
       </div>
 
       <h2 className="sr-only">Accounts</h2>

@@ -1,11 +1,20 @@
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux'
+import { logout } from '../features/user/userSlice'
+import { getUserDetails } from '../features/user/userActions'
+import { useEffect } from 'react'
 import '../main.css';
 import logo from './../img/argentBankLogo.png';
 
 function Header() {
-  const { pathname } = useLocation;
+  const { userInfo, userToken } = useSelector((state) => state.user)
+  const dispatch = useDispatch()
 
-  console.log(pathname);
+  useEffect(() => {
+    if (userToken) {
+      dispatch(getUserDetails())
+    }
+  }, [userToken, dispatch])
 
   return (
     <header className="App-header">
@@ -24,25 +33,23 @@ function Header() {
         </NavLink>
 
         <div>
-          <NavLink
-            to="/sign-in"
-            className="main-nav-item"
-          >
-            <i className="fa fa-user-circle"></i>
+          {userInfo ? (
+            <>
+              <NavLink className='button me-5' to='/profile'>
+                {userInfo.body.firstName}
+              </NavLink>
 
-            Sign In
-          </NavLink>
-          { pathname === "/user:userId" ?
-            <NavLink
-              to="/"
-              className="main-nav-item"
-            >
-              <i className="fa fa-sign-out"></i>
+              <NavLink className='button' to='/' onClick={() => dispatch(logout())}>
+                Logout
+              </NavLink>
+            </>
+          ) : (
+            <NavLink className='button' to='/login'>
+              <i className="fa fa-user-circle"></i>
 
-              Sign Out
+              Sign In
             </NavLink>
-            : undefined
-          }
+          )}
         </div>
       </nav>
     </header>
