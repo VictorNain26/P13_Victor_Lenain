@@ -8,8 +8,6 @@ function User() {
   const { register, handleSubmit } = useForm()
   const dispatch = useDispatch()
 
-  console.log(userInfo);
-
   const submitForm = (data) => {
     dispatch(editUser(data))
   }

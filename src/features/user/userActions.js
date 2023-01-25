@@ -37,7 +37,7 @@ export const getUserDetails = createAsyncThunk(
 
       const config = {
         headers: {
-          Authorization: `Bearer ${user.userToken}`,
+          Authorization: `Bearer ${localStorage.getItem('userToken')}`,
         },
       }
 
@@ -58,11 +58,9 @@ export const editUser = createAsyncThunk(
   'user/profile',
   async ({ firstName, lastName }, { getState, rejectWithValue }) => {
     try {
-      const { user } = getState()
-
       const config = {
         headers: {
-          Authorization: `Bearer ${user.userToken}`,
+          Authorization: `Bearer ${localStorage.getItem('userToken')}`,
         },
       }
 
